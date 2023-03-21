@@ -182,8 +182,8 @@ build_dX <- function(dataset, p){
 
 
 est_VECM2 <- function(dataset, p, r){
-  constant <- rep(1,67)
-  trend <- seq(1, 67)
+  constant <- rep(1,nrow(dataset) -2)
+  trend <- seq(1, nrow(dataset)-2)
   dX <- cbind(build_dX(dataset, p), constant)
   Xlag <- cbind(build_Xlag(dataset, p), trend)
   W <- cbind(build_W(dataset, p), constant)
@@ -201,7 +201,33 @@ est_VECM2 <- function(dataset, p, r){
               lambdas=lambdas, S00=S00, S11=S11))
 }
 
-
 summary(VECM(dikke_y2, lag=p, r=r, include=c('const'), estim=c("ML"), LRinclude="trend")) # Add our test
 VECM_results2<-est_VECM2(dikke_y2, p, r) # Just storing the results
 VECM_results2$beta/VECM_results2$beta[1] # Relation
+VECM_results2
+
+#### D
+data3 <- data
+
+
+date3 = data3$X
+OR3 = data3$OR
+m3 = log(data3$M)
+p3 = log(data3$P)
+y3 = log(data3$Y)
+whh3 = log(data3$WHH)
+
+rms3 = m3-p3
+dwhh3 = whh3[2:92]-whh3[1:91]
+
+dikke_y3 = matrix(nrow= 91,ncol = 4)
+dikke_y3[,1] = rms3[2:92]
+dikke_y3[,2] = y3[2:92] 
+dikke_y3[,3] = OR3[2:92] 
+dikke_y3[,4] = dwhh3
+colnames(dikke_y3) = list("rms", "y", "OR", "dwhh")
+
+summary(VECM(dikke_y3, lag=p, r=r, include=c('const'), estim=c("ML"), LRinclude="trend")) # Add our test
+VECM_results3<-est_VECM2(dikke_y3, p, r) # Just storing the results
+VECM_results3$phi
+VECM_results3$beta/VECM_results3$beta[1] # Relation
