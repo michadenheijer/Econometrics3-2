@@ -147,7 +147,7 @@ LRstat(lambdas[1:3])
 LRstat(lambdas[2:3])
 LRstat(lambdas[3])
 
-# So, p=1 and r=1   HIER HEBBEN WE DUS GEEN BEWIJS VOOR MOETEN WE NOG FF UITZOEKEN
+# So, p=1 and r=1
 
 # Check 
 summary(rank.test(VECM(X, lag=p, r=2, include='none', estim="ML",
