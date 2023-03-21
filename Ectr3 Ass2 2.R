@@ -143,8 +143,8 @@ LRstat <- function(lambdas, n=iT-2){
 }
 lambdas <- est_VECM(X, p=1, r=3)$lambdas
 LRstat(lambdas)
-LRstat(lambdas[1])
-LRstat(lambdas[2])
+LRstat(lambdas[1:3])
+LRstat(lambdas[2:3])
 LRstat(lambdas[3])
 
 # So, p=1 and r=1   HIER HEBBEN WE DUS GEEN BEWIJS VOOR MOETEN WE NOG FF UITZOEKEN
@@ -153,6 +153,7 @@ LRstat(lambdas[3])
 summary(rank.test(VECM(X, lag=p, r=2, include='none', estim="ML",
                        LRinclude="none"), cval=0.01))
 
+VECM_results$alpha
 
 # c
 
@@ -204,7 +205,8 @@ est_VECM2 <- function(dataset, p, r){
 summary(VECM(dikke_y2, lag=p, r=r, include=c('const'), estim=c("ML"), LRinclude="trend")) # Add our test
 VECM_results2<-est_VECM2(dikke_y2, p, r) # Just storing the results
 VECM_results2$beta/VECM_results2$beta[1] # Relation
-VECM_results2
+VECM_results2$phi[1:4,]
+VECM_results2$alpha[1:4]
 
 #### D
 data3 <- data
@@ -229,5 +231,7 @@ colnames(dikke_y3) = list("rms", "y", "OR", "dwhh")
 
 summary(VECM(dikke_y3, lag=p, r=r, include=c('const'), estim=c("ML"), LRinclude="trend")) # Add our test
 VECM_results3<-est_VECM2(dikke_y3, p, r) # Just storing the results
-VECM_results3$phi
+VECM_results3$phi[1:4,]
 VECM_results3$beta/VECM_results3$beta[1] # Relation
+VECM_results3$beta
+VECM_results3$alpha[1:4]/VECM_results3$beta[1]
